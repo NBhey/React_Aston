@@ -6,13 +6,17 @@ class MyClassComponent extends Component {
     this.state = {
       inputValue: "",
       submittedValue: "",
+      stateButton: false,
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
+
   }
   handleInputChange = (event) => {
-    console.log({ inputValue: event.target.value });
-    this.setState({ inputValue: event.target.value });
+    this.setState({ inputValue: event.target.value , stateButton: event.target.value.includes("react") });  
+    if(this.state.stateButton && !event.target.value.includes("react")){
+      console.warn('продолжайте печатать, кнопка доступна')
+    }
   };
 
   handleSubmit(event) {
@@ -47,9 +51,12 @@ class MyClassComponent extends Component {
               onChange={this.handleInputChange}
             />
           </label>
-          <button type="submit">Отправить</button>
+          <button type="submit" disabled = {this.state.stateButton}>Отправить</button>
         </form>
-        <ChildComponent value={this.state.submittedValue} cb={() => console.log('Ребенок смонтирован!')} />
+        <ChildComponent
+          value={this.state.submittedValue}
+          cb={() => console.log("Ребенок смонтирован!")}
+        />
       </div>
     );
   }
