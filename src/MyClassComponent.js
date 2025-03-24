@@ -13,8 +13,8 @@ class MyClassComponent extends Component {
 
   }
   handleInputChange = (event) => {
-    this.setState({ inputValue: event.target.value , stateButton: event.target.value.includes("react") });  
-    if(this.state.stateButton && !event.target.value.includes("react")){
+    this.setState({ inputValue: event.target.value , stateButton: event.target.value.toLowerCase().includes("react")});  
+    if(this.state.stateButton){
       console.warn('продолжайте печатать, кнопка доступна')
     }
   };
