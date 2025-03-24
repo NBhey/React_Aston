@@ -7,14 +7,15 @@ class MyClassComponent extends Component {
       inputValue: "",
       submittedValue: "",
       stateButton: false,
+      
     };
-
+    this.inputRef = React.createRef();
     this.handleSubmit = this.handleSubmit.bind(this);
 
   }
   handleInputChange = (event) => {
     this.setState({ inputValue: event.target.value , stateButton: event.target.value.toLowerCase().includes("react")});  
-    if(this.state.stateButton){
+    if(this.state.stateButton && !event.target.value.toLowerCase().includes("react")){
       console.warn('продолжайте печатать, кнопка доступна')
     }
   };
@@ -25,6 +26,12 @@ class MyClassComponent extends Component {
     this.setState({ inputValue: "" }, () => {
       console.log("State после отправки:", this.state);
     });
+  }
+
+  focusInput = (e) => {
+    e.preventDefault()
+    console.log('отработал')
+    this.inputRef.current.focus()
   }
 
   componentDidMount() {
@@ -46,12 +53,14 @@ class MyClassComponent extends Component {
           <label>
             Введите текст:
             <input
+              ref={this.inputRef}
               type="text"
               value={this.state.inputValue}
               onChange={this.handleInputChange}
             />
           </label>
           <button type="submit" disabled = {this.state.stateButton}>Отправить</button>
+          <button type="click" onClick={this.focusInput}>Фокус на input</button>
         </form>
         <ChildComponent
           value={this.state.submittedValue}
